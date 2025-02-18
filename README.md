@@ -8,7 +8,7 @@ Para instalar el proyecto, sigue estos pasos:
 
 1. Clona el repositorio:
     ```bash
-    git clone <URL_DEL_REPOSITORIO>
+    git clone https://github.com/lytsistemas/laminas-framework-example
     ```
 2. Navega al directorio del proyecto:
     ```bash
