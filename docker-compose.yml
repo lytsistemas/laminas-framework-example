@@ -1,0 +1,11 @@
+services:
+  laminas:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - ./public:/var/www/public
+      - ./module:/var/www/module
+      - ./config:/var/www/config
+      - ./vendor:/var/www/vendor
+    command: ["/bin/sh", "-c", "composer install --no-dev --optimize-autoloader && apache2-foreground"]

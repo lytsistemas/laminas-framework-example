@@ -1,0 +1,73 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+?>
+
+<!-- Título del error -->
+<h1>Ocurrió un error</h1>
+
+<!-- Mensaje de error -->
+<h2><?= $this->message ?></h2>
+
+<?php if (! empty($this->display_exceptions)) : ?>
+    <?php if (isset($this->exception) && $this->exception instanceof \Throwable) : ?>
+<hr/>
+
+<!-- Información adicional sobre la excepción -->
+<h2>Información adicional:</h2>
+<h3><?= get_class($this->exception) ?></h3>
+<dl>
+    <dt>Archivo:</dt>
+    <dd>
+        <pre><?= $this->exception->getFile() ?>:<?= $this->exception->getLine() ?></pre>
+    </dd>
+    <dt>Mensaje:</dt>
+    <dd>
+        <pre><?= $this->escapeHtml($this->exception->getMessage()) ?></pre>
+    </dd>
+    <dt>Traza de la pila:</dt>
+    <dd>
+        <pre><?= $this->escapeHtml($this->exception->getTraceAsString()) ?></pre>
+    </dd>
+</dl>
+
+        <?php if ($ex = $this->exception->getPrevious()) : ?>
+<hr/>
+
+<!-- Excepciones anteriores -->
+<h2>Excepciones anteriores:</h2>
+<ul class="list-unstyled">
+            <?php $icount = 0 ?>
+            <?php while ($ex) : ?>
+    <li>
+        <h3><?= get_class($ex) ?></h3>
+        <dl>
+            <dt>Archivo:</dt>
+            <dd>
+                <pre><?= $ex->getFile() ?>:<?= $ex->getLine() ?></pre>
+            </dd>
+            <dt>Mensaje:</dt>
+            <dd>
+                <pre><?= $this->escapeHtml($ex->getMessage()) ?></pre>
+            </dd>
+            <dt>Traza de la pila:</dt>
+            <dd>
+                <pre><?= $this->escapeHtml($ex->getTraceAsString()) ?></pre>
+            </dd>
+        </dl>
+    </li>
+                <?php
+                $ex = $ex->getPrevious();
+                if (++$icount >= 50) {
+                    echo '<li>Puede haber más excepciones, pero no tenemos suficiente memoria para procesarlas.</li>';
+                    break;
+                }
+                ?>
+            <?php endwhile ?>
+</ul>
+        <?php endif ?>
+    <?php else : ?>
+        <h3>No hay excepción disponible</h3>
+    <?php endif ?>
+<?php endif ?>
